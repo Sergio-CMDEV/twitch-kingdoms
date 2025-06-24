@@ -22,15 +22,16 @@
     <div id="login-status" class="mt-6 text-sm text-gray-400"></div>
   </div>
   <script>
+    const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
     document.getElementById('login-twitch').onclick = async function() {
       // Redirige a la URL de autenticación de Twitch en el backend
-      window.location.href = 'https://backend-twitch-project.onrender.com/auth/twitch';
+      window.location.href = `${BACKEND_URL}/auth/twitch`;
     };
 
     // Al cargar la página, verifica el estado de la sesión del usuario
     window.onload = async function() {
       try {
-        const res = await fetch('/api/user/status', { credentials: 'include' });
+        const res = await fetch(`${BACKEND_URL}/api/user/status`, { credentials: 'include' });
         if (res.ok) {
           const user = await res.json();
           if (!user.loggedIn) return; // No está logueado, permanece en la página de login
@@ -41,7 +42,7 @@
           }
         }
       } catch (e) {
-        // Ignora errores, el usuario no está logueado
+        // Ignora errores
       }
     };
   </script>
