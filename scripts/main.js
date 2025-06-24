@@ -271,3 +271,14 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
       localStorage.setItem('twitch_access_token', accessToken);
       // Aquí puedes hacer peticiones autenticadas o redirigir si es necesario
     }
+
+    // Botón de login con Twitch
+    const loginTwitchBtn = document.getElementById('loginTwitch');
+    if (loginTwitchBtn) {
+      loginTwitchBtn.onclick = () => {
+        window.location.href = `${BACKEND_URL}/auth/twitch`;
+      };
+    }
+
+    // Si usas un enlace HTML, asegúrate de que apunte a la URL completa:
+    // <a href="https://backend-twitch-project.onrender.com/auth/twitch">Login con Twitch</a>
