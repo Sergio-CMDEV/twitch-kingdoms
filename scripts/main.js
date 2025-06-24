@@ -291,3 +291,29 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
 fetch(`${API_URL}/api/usuario`, { credentials: 'include' })
   .then(res => res.json())
   .then(data => console.log(data));
+
+// Verifica login y redirige según el estado del usuario
+export async function verificarLoginYRedireccion() {
+  const res = await fetch(`${BACKEND_URL}/api/usuario`, {
+    credentials: 'include'
+  });
+  if (!res.ok) {
+    window.location.href = 'index.html';
+    return;
+  }
+  const user = await res.json();
+  if (!user.reino) {
+    window.location.href = 'choose-reino.html';
+    return;
+  }
+  // Ya tiene reino: muestra bienvenida
+  const welcome = document.getElementById('welcome');
+  if (welcome) {
+    welcome.textContent = `¡Bienvenido, ${user.display_name}! Tu reino: ${user.reino}`;
+  }
+}
+
+// Llama a la función al cargar la página principal
+if (window.location.pathname.endsWith('main.html')) {
+  document.addEventListener('DOMContentLoaded', verificarLoginYRedireccion);
+}

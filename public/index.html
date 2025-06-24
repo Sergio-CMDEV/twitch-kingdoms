@@ -21,33 +21,11 @@
     <button class="twitch-btn" id="login-twitch"><i class="fa-brands fa-twitch mr-2"></i>Login with Twitch</button>
     <div id="login-status" class="mt-6 text-sm text-gray-400"></div>
   </div>
-  <script type="module">
-    import { supabase } from '../scripts/supabaseClient.js';
-
-    document.getElementById('login-twitch').onclick = async function() {
-      const { error } = await supabase.auth.signInWithOAuth({ provider: 'twitch' });
-      if (error) {
-        document.getElementById('login-status').textContent = 'Error: ' + error.message;
-      }
-    };
-
-    // Al cargar, verifica si el usuario ya está autenticado
-    window.onload = async function() {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return;
-      // Consulta el perfil del usuario para ver si tiene reino
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData?.user) return;
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('kingdom')
-        .eq('id', userData.user.id)
-        .single();
-      if (data && !data.kingdom) {
-        window.location.href = 'choose-reino.html';
-      } else if (data && data.kingdom) {
-        window.location.href = 'main.html';
-      }
+  <!-- Ahora: vas directo a tu backend -->
+  <script>
+    document.getElementById('login-twitch').onclick = function() {
+      // Esto abre la ruta de tu backend que lanza Passport/Twitch
+      window.location.href = 'https://backend-twitch-project.onrender.com/auth/twitch';
     };
   </script>
 </body>

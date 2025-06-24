@@ -147,12 +147,23 @@
     </div>
 
     <script>
-        function elegirReino(reino) {
-            fetch('/set-reino', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ reino })
-            }).then(() => window.location.href = '/');
+        async function elegirReino(reino) {
+            try {
+                const res = await fetch('https://backend-twitch-project.onrender.com/set-reino', {
+                    method: 'POST',
+                    credentials: 'include',             // envía cookie de sesión
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reino })
+                });
+                if (res.ok) {
+                    window.location.href = 'main.html';
+                } else {
+                    alert('Error guardando reino');
+                }
+            } catch (e) {
+                console.error('Error en elegirReino:', e);
+                alert('Error de red');
+            }
         }
 
         function toggleInfo() {
