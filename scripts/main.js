@@ -97,9 +97,14 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
       }, 210);
     }
 
-    function logout() {
-      alert(currentLang === 'es' ? 'Cerrando sesión...' : 'Logging out...');
+    async function logout() {
+      await fetch(`${BACKEND_URL}/logout`, {
+        method: 'GET',
+        credentials: 'include'
+      });
+      window.location.href = 'index.html'; // o página de login
     }
+
 
     function crearTarjetaTropa(nombre, cantidad) {
       return `
@@ -314,6 +319,27 @@ export async function verificarLoginYRedireccion() {
 }
 
 // Llama a la función al cargar la página principal
-if (window.location.pathname.endsWith('main.html')) {
-  document.addEventListener('DOMContentLoaded', verificarLoginYRedireccion);
-}
+document.addEventListener('DOMContentLoaded', async () => {
+  // Verificar login y reino
+  const res = await fetch(`${BACKEND_URL}/api/usuario`, { credentials: 'include' });
+  if (!res.ok) {
+    window.location.href = 'index.html'; // no logueado
+    return;
+  }
+  const user = await res.json();
+  if (!user.reino) {
+    window.location.href = 'choose-reino.html'; // no tiene reino
+    return;
+  }
+
+  // Tiene reino, actualizar UI y cargar sección
+  const welcome = document.getElementById('welcome');
+  if (welcome) {
+    welcome.textContent = `¡Bienvenido, ${user.display_name}! Tu reino: ${user.reino}`;
+  }
+
+  updateSidebarText();
+  setSidebarUserName();
+  checkTwitchLive();
+  loadSection(localStorage.getItem('currentSection') || 'dashboard');
+});
