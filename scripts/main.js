@@ -276,7 +276,7 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
       // Aquí puedes hacer peticiones autenticadas o redirigir si es necesario
     }
 
-    // Botón de login con Twitch
+    // Botón de login con Twitch (asegura siempre la URL completa del backend)
     const loginTwitchBtn = document.getElementById('loginTwitch');
     if (loginTwitchBtn) {
       loginTwitchBtn.onclick = () => {
