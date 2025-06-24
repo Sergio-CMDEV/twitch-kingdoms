@@ -1,8 +1,11 @@
+// URL base del backend desplegado en Render
+const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
+
 // Este script hace una petición al backend para obtener datos y mostrarlos en la página
 
 async function cargarUsuarios() {
   try {
-    const response = await fetch('http://localhost:3000/api/usuarios'); // Ajusta la URL según tu backend
+    const response = await fetch(`${BACKEND_URL}/api/usuarios`); // Ahora usa la URL del backend en Render
     const data = await response.json();
     const lista = document.getElementById('usuarios-lista');
     lista.innerHTML = '';
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
 
     async function obtenerDatosUsuario() {
       try {
-        const res = await fetch('/api/usuario');
+        const res = await fetch(`${BACKEND_URL}/api/usuario`); // Ahora usa la URL del backend en Render
         const data = await res.json();
         return data;
       } catch (err) {
