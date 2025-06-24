@@ -51,18 +51,24 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
       }
     };
 
-    async function obtenerDatosUsuario() {
-      try {
-        const res = await fetch(`${BACKEND_URL}/api/usuario`, {
-          credentials: 'include'
-        });
-        const data = await res.json();
-        return data;
-      } catch (err) {
-        console.error("Error al obtener datos del usuario:", err);
-        return null;
+    // main.js (o similar)
+async function obtenerDatosUsuario() {
+  try {
+    const response = await fetch(BACKEND_URL + '/api/usuario', {
+      credentials: 'include',  // MUY IMPORTANTE para enviar cookies y mantener sesión
+      headers: {
+        'Accept': 'application/json'
       }
-    }
+    });
+    if (!response.ok) throw new Error('No autorizado');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error al obtener datos del usuario:', error);
+    return null;
+  }
+}
+
     function updateSidebarText() {
       const t = translations[currentLang];
       document.getElementById('menu-dashboard').textContent = t.dashboard;
