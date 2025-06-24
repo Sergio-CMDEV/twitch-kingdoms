@@ -65,7 +65,7 @@
       <div class="flex items-center justify-between mb-2">
         <div class="flex items-center min-w-0">
           <img id="sidebar-profile-img" class="w-10 h-10 rounded-full border-2 border-blue-300 mr-2"
-            src="/img/default-profile.png" alt="avatar">
+            src="img/default-profile.png" alt="avatar">
           <h2 class="text-2xl font-bold truncate max-w-[110px]" style="max-width:110px;">DearBird</h2>
         </div>
         <button id="hide-sidebar-btn" onclick="toggleSidebar()"
@@ -83,8 +83,8 @@
         <a href="#" onclick="event.preventDefault(); loadSection('chat')" class="hover:bg-gray-700 p-2 rounded" id="menu-chat">Chat
           <span id="chat-live-indicator" class="chat-live-indicator hidden"></span>
         </a>
-        <a href="#" onclick="loadSection('noticias')" class="hover:bg-gray-700 p-2 rounded" id="menu-noticias">Noticias</a>
-        <a href="#" onclick="loadSection('estadisticas')" class="hover:bg-gray-700 p-2 rounded" id="menu-estadisticas">Estadísticas</a>
+        <a href="#" onclick="event.preventDefault(); loadSection('noticias')" class="hover:bg-gray-700 p-2 rounded" id="menu-noticias">Noticias</a>
+        <a href="#" onclick="event.preventDefault(); loadSection('estadisticas')" class="hover:bg-gray-700 p-2 rounded" id="menu-estadisticas">Estadísticas</a>
         <button id="lang-btn" onclick="toggleLanguage()" class="bg-green-600 hover:bg-green-700 text-white p-2 rounded">Cambiar
           Idioma</button>
         <a id="logout-btn" href="#" onclick="logout()" class="hover:bg-red-600 bg-red-700 p-2 rounded mt-auto">Cerrar sesión</a>
@@ -105,7 +105,7 @@
         <!-- Contenido dinámico -->
       </div>
       <ul id="usuarios-lista"></ul>
-      <script type="module" src="../scripts/main.js"></script>
+      <script type="module" src="scripts/main.js"></script>
     </main>
   </div>
 </body>
