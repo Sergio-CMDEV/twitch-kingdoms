@@ -131,6 +131,9 @@
     <button class="carousel-arrow" id="arrow-right">&#8594;</button>
   </div>
   <script>
+    const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
+  </script>
+  <script>
     // --- Estado de stream y título dinámico ---
     async function getTwitchStatus() {
       const channel = 'DearBird';
@@ -143,7 +146,7 @@
       let lastGameName = '';
       let broadcasterId = '';
       try {
-        const res = await fetch(`/api/twitch_status?channel=${channel}`);
+        const res = await fetch(`${BACKEND_URL}/api/twitch_status?channel=${channel}`, { credentials: 'include' });
         const data = await res.json();
         if (data.error || (!data.isLive && !data.lastStreamTitle)) {
           statusDiv.innerHTML = `<div class='twitch-title'><a href='${streamUrl}' target='_blank' class='morado'>DearBird</a> (sin datos de Twitch)</div><div class='twitch-subtitle'>No se pudo obtener información del stream.</div>`;
@@ -171,7 +174,7 @@
     let clipIndex = 0;
     async function fetchClips() {
       try {
-        const res = await fetch(`/api/twitch_clips?broadcaster_id=DearBird`);
+        const res = await fetch(`${BACKEND_URL}/api/twitch_clips?broadcaster_id=DearBird`, { credentials: 'include' });
         const data = await res.json();
         if (data.clips && data.clips.length) {
           allClips = data.clips.sort(() => 0.5 - Math.random());

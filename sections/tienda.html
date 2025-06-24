@@ -15,6 +15,7 @@
     <div id="tienda-content" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </div>
   <script>
+    const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
     const tiendaText = {
       es: { title: 'Tienda', empty: 'No hay productos disponibles.', buy: 'Comprar' },
       en: { title: 'Shop', empty: 'No products available.', buy: 'Buy' }
@@ -24,7 +25,7 @@
       cargarTienda(lang);
     }
     async function cargarTienda(lang = 'es') {
-      const productos = await fetch('/api/tienda').then(r => r.json()).catch(() => []);
+      const productos = await fetch(`${BACKEND_URL}/api/tienda`, { credentials: 'include' }).then(r => r.json()).catch(() => []);
       const cont = document.getElementById('tienda-content');
       cont.innerHTML = '';
       if (!productos.length) {

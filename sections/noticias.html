@@ -17,6 +17,9 @@
     </div>
   </div>
   <script>
+    const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
+  </script>
+  <script>
     (function() {
       if (window.noticiasScriptLoaded) return;
       window.noticiasScriptLoaded = true;
@@ -29,7 +32,7 @@
         cargarNoticias(lang);
       }
       async function cargarNoticias(lang = 'es') {
-        let noticias = await fetch('/api/noticias').then(r => r.json()).catch(() => []);
+        let noticias = await fetch(`${BACKEND_URL}/api/noticias`, { credentials: 'include' }).then(r => r.json()).catch(() => []);
         noticias = noticias.filter(n => n.id && n.titulo && n.resumen && n.fecha);
         const cont = document.getElementById('noticias-content');
         cont.innerHTML = '';

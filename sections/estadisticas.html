@@ -15,6 +15,9 @@
     <div id="estadisticas-content" class="space-y-4"></div>
   </div>
   <script>
+    const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
+  </script>
+  <script>
     const estadisticasText = {
       es: { title: 'Estadísticas', victorias: 'Victorias', derrotas: 'Derrotas', edificios: 'Edificios construidos', tropas: 'Tropas perdidas', empty: 'No hay estadísticas.' },
       en: { title: 'Statistics', victorias: 'Wins', derrotas: 'Losses', edificios: 'Buildings built', tropas: 'Troops lost', empty: 'No statistics.' }
@@ -24,7 +27,7 @@
       cargarEstadisticas(lang);
     }
     async function cargarEstadisticas(lang = 'es') {
-      const est = await fetch('/api/estadisticas').then(r => r.json()).catch(() => null);
+      const est = await fetch(`${BACKEND_URL}/api/estadisticas`, { credentials: 'include' }).then(r => r.json()).catch(() => null);
       const cont = document.getElementById('estadisticas-content');
       cont.innerHTML = '';
       if (!est) {

@@ -383,6 +383,9 @@
     </div>
   </div>
   <script>
+    const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
+  </script>
+  <script>
     let lang = (localStorage.getItem('lang') || (navigator.language || navigator.userLanguage).startsWith('es') ? 'es' : 'en');
     const textos = {
       es: {
@@ -665,7 +668,7 @@
     async function getUserKingdomAndTiers() {
       // Llama a la API para obtener el reino y los niveles de las unidades del usuario
       try {
-        const res = await fetch('/api/usuario');
+        const res = await fetch(`${BACKEND_URL}/api/usuario`, { credentials: 'include' });
         const user = await res.json();
         // user.kingdom: nombre del reino
         // user.tiers: { 'Legionario': 2, ... } (deberás implementar esto en tu backend)

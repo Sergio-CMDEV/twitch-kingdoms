@@ -100,6 +100,7 @@
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
   <script>
+    const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
     // Navegación entre secciones admin
     function showAdminSection(section) {
       document.querySelectorAll('.admin-nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -122,11 +123,7 @@
         msg.className = 'text-red-600';
         return;
       }
-      const res = await fetch('/api/noticias', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ titulo, resumen })
-      });
+      const res = await fetch(`${BACKEND_URL}/api/noticias`, { credentials: 'include', method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ titulo, resumen }) });
       if (res.ok) {
         msg.textContent = 'Noticia añadida correctamente.';
         msg.className = 'text-green-600';
@@ -144,7 +141,7 @@
       const msg = document.getElementById('eliminar-msg');
       lista.innerHTML = '<li class="text-gray-400">Cargando noticias...</li>';
       msg.textContent = '';
-      const noticias = await fetch('/api/noticias').then(r => r.json()).catch(() => []);
+      const noticias = await fetch(`${BACKEND_URL}/api/noticias`, { credentials: 'include' }).then(r => r.json()).catch(() => []);
       lista.innerHTML = '';
       if (!noticias.length) {
         lista.innerHTML = '<li class="text-gray-400">No hay noticias.</li>';
@@ -159,7 +156,7 @@
         btn.className = 'bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded font-bold ml-4';
         btn.onclick = async () => {
           if (!confirm('¿Seguro que quieres eliminar esta noticia?')) return;
-          const res = await fetch(`/api/noticias/${noticia.id}`, { method: 'DELETE' });
+          const res = await fetch(`${BACKEND_URL}/api/noticias/${noticia.id}`, { credentials: 'include', method: 'DELETE' });
           if (res.ok) {
             msg.textContent = 'Noticia eliminada correctamente.';
             msg.className = 'text-green-600';
@@ -178,13 +175,13 @@
     // Estadísticas rápidas
     async function cargarEstadisticasAdmin() {
       // Usuarios
-      const usuarios = await fetch('/api/usuarios-count').then(r => r.json()).catch(() => ({ count: 0 }));
+      const usuarios = await fetch(`${BACKEND_URL}/api/usuarios-count`, { credentials: 'include' }).then(r => r.json()).catch(() => ({ count: 0 }));
       document.getElementById('admin-users-count').textContent = usuarios.count;
       // Reinos activos
-      const reinos = await fetch('/api/reinos-count').then(r => r.json()).catch(() => ({ count: 0 }));
+      const reinos = await fetch(`${BACKEND_URL}/api/reinos-count`, { credentials: 'include' }).then(r => r.json()).catch(() => ({ count: 0 }));
       document.getElementById('admin-reinos-count').textContent = reinos.count;
       // Legiones
-      const legiones = await fetch('/api/legiones-count').then(r => r.json()).catch(() => ({ count: 0 }));
+      const legiones = await fetch(`${BACKEND_URL}/api/legiones-count`, { credentials: 'include' }).then(r => r.json()).catch(() => ({ count: 0 }));
       document.getElementById('admin-legiones-count').textContent = legiones.count;
     }
     document.addEventListener('DOMContentLoaded', cargarEstadisticasAdmin);
@@ -203,7 +200,7 @@
       usuariosPagina = pagina;
       usuariosUltimaBusqueda = busqueda;
       // API: /api/usuarios?pagina=1&busqueda=xxx
-      const res = await fetch(`/api/usuarios?pagina=${pagina}&busqueda=${encodeURIComponent(busqueda)}`);
+      const res = await fetch(`${BACKEND_URL}/api/usuarios?pagina=${pagina}&busqueda=${encodeURIComponent(busqueda)}`, { credentials: 'include' });
       const data = await res.json().catch(() => ({ usuarios: [], totalPaginas: 1 }));
       // DEBUG: Mostrar en consola lo que devuelve el backend
       console.log('Respuesta /api/usuarios:', data);
@@ -308,7 +305,7 @@
         const id = e.target.dataset.id;
         const msg = document.getElementById('usuario-msg');
         if (!confirm('¿Seguro que quieres eliminar este usuario?')) return;
-        const res = await fetch(`/api/usuarios/${id}`, { method: 'DELETE' });
+        const res = await fetch(`/api/usuarios/${id}`, { credentials: 'include', method: 'DELETE' });
         if (res.ok) {
           msg.textContent = 'Usuario eliminado correctamente.';
           msg.className = 'text-green-600';
@@ -332,11 +329,7 @@
         msg.className = 'text-red-600';
         return;
       }
-      const res = await fetch('/api/usuarios', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, reino })
-      });
+      const res = await fetch('/api/usuarios', { credentials: 'include', method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nombre, reino }) });
       if (res.ok) {
         msg.textContent = 'Usuario añadido correctamente.';
         msg.className = 'text-green-600';
@@ -354,7 +347,7 @@
       const msg = document.getElementById('reino-msg');
       lista.innerHTML = '<li class="text-gray-400">Cargando reinos...</li>';
       msg.textContent = '';
-      const reinos = await fetch('/api/reinos').then(r => r.json()).catch(() => []);
+      const reinos = await fetch(`${BACKEND_URL}/api/reinos`, { credentials: 'include' }).then(r => r.json()).catch(() => []);
       lista.innerHTML = '';
       if (!reinos.length) {
         lista.innerHTML = '<li class="text-gray-400">No hay reinos.</li>';
@@ -369,7 +362,7 @@
         btn.className = 'bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded font-bold ml-4';
         btn.onclick = async () => {
           if (!confirm('¿Seguro que quieres eliminar este reino?')) return;
-          const res = await fetch(`/api/reinos/${reino.id}`, { method: 'DELETE' });
+          const res = await fetch(`${BACKEND_URL}/api/reinos/${reino.id}`, { credentials: 'include', method: 'DELETE' });
           if (res.ok) {
             msg.textContent = 'Reino eliminado correctamente.';
             msg.className = 'text-green-600';
@@ -393,11 +386,7 @@
         msg.className = 'text-red-600';
         return;
       }
-      const res = await fetch('/api/reinos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre })
-      });
+      const res = await fetch('/api/reinos', { credentials: 'include', method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nombre }) });
       if (res.ok) {
         msg.textContent = 'Reino añadido correctamente.';
         msg.className = 'text-green-600';
@@ -415,7 +404,7 @@
       const msg = document.getElementById('legion-msg');
       lista.innerHTML = '<li class="text-gray-400">Cargando legiones...</li>';
       msg.textContent = '';
-      const legiones = await fetch('/api/legiones').then(r => r.json()).catch(() => []);
+      const legiones = await fetch(`${BACKEND_URL}/api/legiones`, { credentials: 'include' }).then(r => r.json()).catch(() => []);
       lista.innerHTML = '';
       if (!legiones.length) {
         lista.innerHTML = '<li class="text-gray-400">No hay legiones.</li>';
@@ -430,7 +419,7 @@
         btn.className = 'bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded font-bold ml-4';
         btn.onclick = async () => {
           if (!confirm('¿Seguro que quieres eliminar esta legión?')) return;
-          const res = await fetch(`/api/legiones/${legion.id}`, { method: 'DELETE' });
+          const res = await fetch(`${BACKEND_URL}/api/legiones/${legion.id}`, { credentials: 'include', method: 'DELETE' });
           if (res.ok) {
             msg.textContent = 'Legión eliminada correctamente.';
             msg.className = 'text-green-600';
@@ -455,11 +444,7 @@
         msg.className = 'text-red-600';
         return;
       }
-      const res = await fetch('/api/legiones', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, reino })
-      });
+      const res = await fetch('/api/legiones', { credentials: 'include', method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nombre, reino }) });
       if (res.ok) {
         msg.textContent = 'Legión añadida correctamente.';
         msg.className = 'text-green-600';

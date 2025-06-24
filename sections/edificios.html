@@ -15,6 +15,7 @@
     <div id="edificios-content" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </div>
   <script>
+    const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
     const edificiosText = {
       es: { title: 'Edificios', empty: 'No hay edificios construidos.', upgrade: 'Mejorar' },
       en: { title: 'Buildings', empty: 'No buildings constructed.', upgrade: 'Upgrade' }
@@ -24,7 +25,7 @@
       cargarEdificios(lang);
     }
     async function cargarEdificios(lang = 'es') {
-      const edificios = await fetch('/api/edificios').then(r => r.json()).catch(() => []);
+      const edificios = await fetch(`${BACKEND_URL}/api/edificios`, { credentials: 'include' }).then(r => r.json()).catch(() => []);
       const cont = document.getElementById('edificios-content');
       cont.innerHTML = '';
       if (!edificios.length) {

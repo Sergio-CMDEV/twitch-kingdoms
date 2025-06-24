@@ -92,14 +92,17 @@
     <div id="admin-btn-container"></div>
   </div>
   <script>
+    const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
+  </script>
+  <script>
     // Cargar datos de usuario y estadísticas
     async function cargarDashboard() {
       try {
         // Oro (coins)
-        const usuario = await fetch('/api/usuario').then(r => r.json());
+        const usuario = await fetch(`${BACKEND_URL}/api/usuario`, { credentials: 'include' }).then(r => r.json());
         document.getElementById('gold-count').textContent = usuario.coins ?? '0';
         // Tropas
-        const tropas = await fetch('/api/tropas').then(r => r.json());
+        const tropas = await fetch(`${BACKEND_URL}/api/tropas`, { credentials: 'include' }).then(r => r.json());
         let totalTropas = 0;
         if (Array.isArray(tropas)) {
           totalTropas = tropas.reduce((acc, t) => acc + (Number(t.quantity) || 0), 0);
@@ -114,7 +117,7 @@
     async function cargarActividad() {
       let actividad = [];
       try {
-        const response = await fetch('/api/actividad');
+        const response = await fetch(`${BACKEND_URL}/api/actividad`, { credentials: 'include' });
         if (!response.ok) throw new Error('No autenticado');
         actividad = await response.json();
       } catch (e) {
@@ -148,7 +151,7 @@
     }
     // Noticias funcional
     async function cargarNoticias() {
-      const noticias = await fetch('/api/noticias').then(r => r.json()).catch(() => []);
+      const noticias = await fetch(`${BACKEND_URL}/api/noticias`, { credentials: 'include' }).then(r => r.json()).catch(() => []);
       const lista = document.getElementById('noticias-list');
       const badge = document.getElementById('news-count');
       lista.innerHTML = '';
@@ -173,7 +176,7 @@
     }
     // Botón de admin si el usuario es admin
     async function mostrarBotonAdmin() {
-      const usuario = await fetch('/api/usuario').then(r => r.json());
+      const usuario = await fetch(`${BACKEND_URL}/api/usuario`, { credentials: 'include' }).then(r => r.json());
       if (usuario.is_admin) {
         const cont = document.getElementById('admin-btn-container');
         cont.innerHTML = `<button onclick="window.location.href='/admin'" class="mt-8 w-full bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 rounded-xl shadow-lg flex items-center justify-center gap-2 animate__animated animate__fadeInUp"><i class='fa-solid fa-crown'></i> Panel de Administración</button>`;
