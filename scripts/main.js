@@ -258,3 +258,16 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
     //     sidebar.insertBefore(adminBtn, document.getElementById('logout-btn'));
     //   }
     // }
+
+    function getAccessTokenFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("access_token");
+    }
+
+    const accessToken = getAccessTokenFromUrl();
+    if (accessToken) {
+      console.log("Token de Twitch:", accessToken);
+      // Puedes guardar el token en localStorage para usarlo después
+      localStorage.setItem('twitch_access_token', accessToken);
+      // Aquí puedes hacer peticiones autenticadas o redirigir si es necesario
+    }
