@@ -1,5 +1,6 @@
 // URL base del backend desplegado en Render
 const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
+const API_URL = 'https://backend-twitch-project.onrender.com';
 
 // Este script hace una petición al backend para obtener datos y mostrarlos en la página
 
@@ -286,3 +287,7 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
 
     // Si usas un enlace HTML, asegúrate de que apunte a la URL completa:
     // <a href="https://backend-twitch-project.onrender.com/auth/twitch">Login con Twitch</a>
+
+fetch(`${API_URL}/api/usuario`, { credentials: 'include' })
+  .then(res => res.json())
+  .then(data => console.log(data));
