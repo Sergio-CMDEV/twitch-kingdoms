@@ -5,7 +5,9 @@ const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
 
 async function cargarUsuarios() {
   try {
-    const response = await fetch(`${BACKEND_URL}/api/usuarios`); // Ahora usa la URL del backend en Render
+    const response = await fetch(`${BACKEND_URL}/api/usuarios`, {
+      credentials: 'include'
+    });
     const data = await response.json();
     const lista = document.getElementById('usuarios-lista');
     lista.innerHTML = '';
@@ -50,7 +52,9 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
 
     async function obtenerDatosUsuario() {
       try {
-        const res = await fetch(`${BACKEND_URL}/api/usuario`); // Ahora usa la URL del backend en Render
+        const res = await fetch(`${BACKEND_URL}/api/usuario`, {
+          credentials: 'include'
+        });
         const data = await res.json();
         return data;
       } catch (err) {
@@ -200,8 +204,8 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
         sidebarProfileImg.style.display = '';
       }
       // Limita el nombre y añade puntos suspensivos si es largo
-      if (user && user.twitch) {
-        let nombre = user.twitch;
+      if (user && user.display_name) {
+        let nombre = user.display_name;
         if (nombre.length > 10) {
           nombre = nombre.slice(0, 7) + '...';
         }
