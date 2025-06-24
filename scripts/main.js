@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
       localStorage.setItem('currentSection', section);
       const content = document.getElementById('main-content');
       animateTransition(content);
-      fetch(`/sections/${section}.html`)
+      fetch(`sections/${section}.html`)
         .then(res => {
           if (!res.ok) throw new Error('No se pudo cargar la sección');
           return res.text();
