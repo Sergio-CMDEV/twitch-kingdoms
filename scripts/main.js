@@ -202,11 +202,11 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
       if (user && user.profile_image_url) {
         sidebarProfileImg.src = user.profile_image_url;
         sidebarProfileImg.onerror = function() {
-          sidebarProfileImg.src = '/img/default-profile.png';
+          sidebarProfileImg.src = 'img/default-profile.png';
         };
         sidebarProfileImg.style.display = '';
       } else {
-        sidebarProfileImg.src = '/img/default-profile.png';
+        sidebarProfileImg.src = 'img/default-profile.png';
         sidebarProfileImg.style.display = '';
       }
       // Limita el nombre y añade puntos suspensivos si es largo
