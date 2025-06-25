@@ -5,7 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Twitch Kingdoms</title>
+  <!-- Configuración global de URLs -->
   <script src="scripts/config.js"></script>
+  <!-- Lógica de login -->
   <script src="scripts/login.js"></script>
 </head>
 <body class="bg-gray-900 text-white flex flex-col justify-center items-center min-h-screen">
@@ -13,11 +15,5 @@
   <button id="login-button" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
     Iniciar sesión con Twitch
   </button>
-
-  <script>
-    document.getElementById('login-button').addEventListener('click', () => {
-      window.location.href = `${BACKEND_URL}/auth/twitch`;
-    });
-  </script>
 </body>
 </html>
