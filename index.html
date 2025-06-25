@@ -1,49 +1,42 @@
+<!-- index.html: LOGIN CON TWITCH corregido y funcional -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Twitch Kingdoms - Login</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
-  <style>
-    body { background: linear-gradient(135deg, #181c23 0%, #23272f 100%); min-height: 100vh; }
-    .login-box { background: #23272f; border-radius: 1rem; box-shadow: 0 8px 32px #0008; padding: 2.5rem 2rem; max-width: 400px; margin: 8vh auto; }
-    .twitch-btn { background: #9147ff; color: #fff; font-weight: bold; border-radius: 0.5rem; padding: 0.8rem 2rem; font-size: 1.2rem; transition: background 0.2s; }
-    .twitch-btn:hover { background: #772ce8; }
-    .logo { font-size: 2.2rem; font-weight: bold; color: #9147ff; letter-spacing: 1px; }
-  </style>
-</head>
-<body>
-  <div class="login-box text-center">
-    <div class="logo mb-6"><i class="fa-brands fa-twitch"></i> Twitch Kingdoms</div>
-    <p class="mb-8 text-gray-300">Inicia sesión con tu cuenta de Twitch para entrar a tu reino.</p>
-    <button class="twitch-btn" id="login-twitch"><i class="fa-brands fa-twitch mr-2"></i>Iniciar sesión con Twitch</button>
-    <div id="login-status" class="mt-6 text-sm text-gray-400"></div>
-  </div>
+  <title>Login - Twitch Kingdoms</title>
+  <link rel="stylesheet" href="styles.css">
   <script>
-    document.getElementById('login-twitch').onclick = async function() {
-      // Redirige a la URL de autenticación de Twitch en el backend
-      window.location.href = `${BACKEND_URL}/auth/twitch`;
-    };
+    const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
 
-    // Al cargar la página, verifica el estado de la sesión del usuario
-    window.onload = async function() {
+    // Verifica si ya hay una sesión activa al cargar la página
+    window.onload = async () => {
       try {
         const res = await fetch(`${BACKEND_URL}/api/user/status`, { credentials: 'include' });
-        if (res.ok) {
-          const user = await res.json();
-          if (!user.loggedIn) return; // No está logueado, permanece en la página de login
-          if (!user.hasKingdom) {
-            window.location.href = 'choose-reino.html'; // Redirige a elegir reino
+        const user = await res.json();
+        if (user.loggedIn) {
+          if (user.reino) {
+            window.location.href = 'main.html';
           } else {
-            window.location.href = 'main.html'; // Redirige al dashboard
+            window.location.href = 'choose-reino.html';
           }
         }
-      } catch (e) {
-        // Ignora errores
+      } catch (err) {
+        console.error('Error al verificar sesión:', err);
       }
     };
+  </script>
+</head>
+<body class="bg-gray-900 text-white flex flex-col justify-center items-center min-h-screen">
+  <h1 class="text-3xl mb-6">Twitch Kingdoms</h1>
+  <button id="login-button" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+    Iniciar sesión con Twitch
+  </button>
+
+  <script>
+    document.getElementById('login-button').addEventListener('click', () => {
+      window.location.href = `${BACKEND_URL}/auth/twitch`;
+    });
   </script>
 </body>
 </html>
