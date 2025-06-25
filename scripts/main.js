@@ -6,7 +6,7 @@ const API_URL = 'https://backend-twitch-project.onrender.com';
 
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('login-button');
-  btn.addEventListener('click', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     window.location.href = `${BACKEND_URL}/auth/twitch`;
   });
 });
@@ -236,14 +236,13 @@ async function obtenerDatosUsuario() {
 
     async function checkTwitchLive() {
       try {
-        const res = await fetch('https://api.twitch.tv/helix/streams?user_login=DearBird', {
-          headers: {
-            'Client-ID': 'YOUR_TWITCH_CLIENT_ID',
-            'Authorization': 'Bearer YOUR_TWITCH_OAUTH_TOKEN'
-          }
+        const res = await fetch(`${BACKEND_URL}/api/stream-status`, {
+          credentials: 'include'
         });
+        if (!res.ok) throw new Error(`Twitch API error ${res.status}`);
         const data = await res.json();
-        const isLive = data.data && data.data.length > 0;
+        const isLive = data.live;
+
         const chatMenu = document.getElementById('menu-chat');
         let indicator = document.getElementById('chat-live-indicator');
         if (isLive) {
@@ -256,7 +255,9 @@ async function obtenerDatosUsuario() {
         } else if (indicator) {
           indicator.remove();
         }
-      } catch (e) { /* Silenciar error */ }
+      } catch (e) {
+        console.error('Error al consultar Twitch:', e);
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
