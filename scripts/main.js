@@ -1,6 +1,5 @@
 // URL base del backend desplegado en Render
-const BACKEND_URL = 'https://backend-twitch-project.onrender.com';
-const API_URL = 'https://backend-twitch-project.onrender.com';
+const BACKEND = window.BACKEND_URL;
 
 // Este script hace una petición al backend para obtener datos y mostrarlos en la página
 
@@ -61,7 +60,7 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
     // main.js (o similar)
 async function obtenerDatosUsuario() {
   try {
-    const response = await fetch(BACKEND_URL + '/api/usuario', {
+    const res = await fetch(`${BACKEND}/api/usuario`, {
       credentials: 'include',  // MUY IMPORTANTE para enviar cookies y mantener sesión
       headers: {
         'Accept': 'application/json'
@@ -236,7 +235,7 @@ async function obtenerDatosUsuario() {
 
     async function checkTwitchLive() {
       try {
-        const res = await fetch(`${BACKEND_URL}/api/stream-status`, {
+        const res = await fetch(`${BACKEND}/api/stream-status`, {
           credentials: 'include'
         });
         if (!res.ok) throw new Error(`Twitch API error ${res.status}`);
@@ -312,23 +311,16 @@ fetch(`${API_URL}/api/usuario`, { credentials: 'include' })
   .then(data => console.log(data));
 
 // Verifica login y redirige según el estado del usuario
-export async function verificarLoginYRedireccion() {
-  const res = await fetch(`${BACKEND_URL}/api/usuario`, {
+async function verificarLoginYRedireccion() {
+  const res = await fetch(`${BACKEND}/api/usuario`, {
     credentials: 'include'
   });
   if (!res.ok) {
-    window.location.href = 'index.html';
-    return;
+    return window.location.href = 'index.html';
   }
   const user = await res.json();
   if (!user.reino) {
-    window.location.href = 'choose-reino.html';
-    return;
-  }
-  // Ya tiene reino: muestra bienvenida
-  const welcome = document.getElementById('welcome');
-  if (welcome) {
-    welcome.textContent = `¡Bienvenido, ${user.display_name}! Tu reino: ${user.reino}`;
+    return window.location.href = 'choose-reino.html';
   }
 }
 

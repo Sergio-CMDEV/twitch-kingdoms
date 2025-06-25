@@ -5,25 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Twitch Kingdoms</title>
-  <script type="module" src="scripts/main.js"></script>
-    <script>
-    // Verifica si ya hay una sesión activa al cargar la página
-    window.onload = async () => {
-      try {
-        const res = await fetch(`${BACKEND_URL}/api/user/status`, { credentials: 'include' });
-        const user = await res.json();
-        if (user.loggedIn) {
-          if (user.reino) {
-            window.location.href = 'main.html';
-          } else {
-            window.location.href = 'choose-reino.html';
-          }
-        }
-      } catch (err) {
-        console.error('Error al verificar sesión:', err);
-      }
-    };
-  </script>
+  <script src="scripts/config.js"></script>
+  <script src="scripts/login.js"></script>
 </head>
 <body class="bg-gray-900 text-white flex flex-col justify-center items-center min-h-screen">
   <h1 class="text-3xl mb-6">Twitch Kingdoms</h1>
