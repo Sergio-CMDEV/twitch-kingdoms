@@ -59,28 +59,26 @@ document.addEventListener('DOMContentLoaded', cargarUsuarios);
 
     // main.js (o similar)
 async function obtenerDatosUsuario() {
-  try {
-    const res = await fetch(`${BACKEND}/api/usuario`, {
-      credentials: 'include',  // MUY IMPORTANTE para enviar cookies y mantener sesión
-      headers: {
-        'Accept': 'application/json'
-      }
-    });
-    if (res.status === 401) {
-          // Sesión caducada o no autenticado → volvemos al login
-          window.location.href = 'index.html';
-          return null;
-        }
-        if (!res.ok) {
-          throw new Error(`Error ${res.status}`);
-        }
-        const data = await res.json();
-        return data;
-      } catch (err) {
-        console.error('Error al obtener datos del usuario:', err);
+  const res = await fetch(`${BACKEND_URL}/api/usuario`, {
+    credentials: 'include'
+      });
+      if (res.status === 401) {
+        // En vez de window.location.href aquí,
+        // devuelve null y deja que el usuario haga click en “Login”
         return null;
       }
+      if (!res.ok) throw new Error(`Error ${res.status}`);
+      return await res.json();
     }
+
+    // En setSidebarUserName:
+    const user = await obtenerDatosUsuario();
+    if (!user) {
+      // Muestra botón de “Login con Twitch” 
+      // o indica “No estás autenticado”
+      return;
+}
+
 
     function updateSidebarText() {
       const t = translations[currentLang];
