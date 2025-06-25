@@ -66,14 +66,21 @@ async function obtenerDatosUsuario() {
         'Accept': 'application/json'
       }
     });
-    if (!response.ok) throw new Error('No autorizado');
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error al obtener datos del usuario:', error);
-    return null;
-  }
-}
+    if (res.status === 401) {
+          // Sesión caducada o no autenticado → volvemos al login
+          window.location.href = 'index.html';
+          return null;
+        }
+        if (!res.ok) {
+          throw new Error(`Error ${res.status}`);
+        }
+        const data = await res.json();
+        return data;
+      } catch (err) {
+        console.error('Error al obtener datos del usuario:', err);
+        return null;
+      }
+    }
 
     function updateSidebarText() {
       const t = translations[currentLang];
